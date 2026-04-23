@@ -1,8 +1,19 @@
 package breakout;
 
 import engine.World;
+import engine.Actor;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyCode;
 
 public class BallWorld extends World {
+	
+	private Ball ball;
+	private Paddle paddle;
+	
+	public BallWorld() {
+		setPrefSize(800, 800);
+	}
 
 	@Override
 	public void act(long now) {
@@ -13,7 +24,28 @@ public class BallWorld extends World {
 	@Override
 	public void onDimensionsInitialized() {
 		// TODO Auto-generated method stub
+		Ball ball = new Ball();
+		add(ball);
+		double x = getWidth() / 2.0;
+		double y = getHeight() / 2.0;
+		double ballX = x - ball.getWidth() / 2.0;
+		double ballY = y - ball.getHeight() / 2.0;
+		ball.setX(ballX);
+		ball.setY(ballY);
 		
+		paddle = new Paddle();
+		add(paddle);
+		double paddleY = getHeight() - 80;
+		paddle.setY(paddleY);
+		double paddleX = getWidth() / 2.0 - paddle.getWidth() / 2.0;
+		paddle.setX(paddleX);
+		setOnMouseMoved(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				// Add your code here
+				double mouseX = event.getX();
+				double PaddleX = mouseX - paddle.getWidth() / 2.0;
+			}});
 	}
 
 }
