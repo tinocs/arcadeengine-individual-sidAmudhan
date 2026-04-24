@@ -10,11 +10,16 @@ public class BallWorld extends World {
 	
 	private Ball ball;
 	private Paddle paddle;
+	private Score score;
 	
 	public BallWorld() {
 		setPrefSize(800, 800);
 	}
 
+	public Score getScore() {
+		return score;
+	}
+	
 	@Override
 	public void act(long now) {
 		// TODO Auto-generated method stub
@@ -46,6 +51,10 @@ public class BallWorld extends World {
 				double mouseX = event.getX();
 				double PaddleX = mouseX - paddle.getWidth() / 2.0;
 			}});
+		score = new Score();
+		score.setX(10);
+		score.setY(30);
+		getChildren().add(score);
 	}
-
+	
 }
