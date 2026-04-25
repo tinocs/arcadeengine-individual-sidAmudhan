@@ -23,6 +23,7 @@ public class Score extends Text {
 	
 	public void setValue(int newValue) {
 		value = newValue;
+		updateDisplay();
 	}
 	
 }

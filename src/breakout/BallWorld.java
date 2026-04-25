@@ -50,11 +50,23 @@ public class BallWorld extends World {
 				// Add your code here
 				double mouseX = event.getX();
 				double PaddleX = mouseX - paddle.getWidth() / 2.0;
+				paddle.setX(paddleX);
 			}});
 		score = new Score();
 		score.setX(10);
 		score.setY(30);
 		getChildren().add(score);
+		
+		int rows = 6;
+		int cols = 6;
+		for (int r = 0; r < rows; r++) {
+			for (int c = 0; c < cols; c++) {
+				Brick b = new Brick();
+				b.setX(30 + c * (b.getWidth() + 4));
+				b.setY(30 + r * (b.getHeight() + 4));
+				add(b);
+			}
+		}
 	}
 	
 }
