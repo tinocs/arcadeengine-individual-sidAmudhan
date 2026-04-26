@@ -44,6 +44,17 @@ public class Ball extends Actor {
 			BallWorld ballworld = (BallWorld) getWorld();
 			Score score = ballworld.getScore();
 			score.setValue(score.getValue() - 1000);
+			Lives lives = ballworld.getLives();
+			lives.setValue(lives.getValue() - 1);
+			if (lives.getValue() <= 0) {
+				System.out.println("You lose");
+			} else {
+				Paddle paddle = ballworld.getObjects(Paddle.class).get(0);
+				setX(paddle.getX() + paddle.getWidth() / 2.0 - getWidth() / 2.0);
+				setY(paddle.getY() - paddle.getHeight() - 2);
+				dx = 4;
+				dy = -5;
+			}
 		}
 		Paddle paddle = getOneIntersectingObject(Paddle.class);
 		if (paddle != null) {
