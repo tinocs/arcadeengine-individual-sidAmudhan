@@ -1,6 +1,7 @@
 package breakout;
 
 import engine.Actor;
+import engine.Sound;
 import javafx.scene.image.Image;
 
 public class Ball extends Actor {
@@ -39,14 +40,17 @@ public class Ball extends Actor {
 		if (getX() <= 0) {
 			setX(0);
 			dx = -dx;
+			new Sound("ballbounceresources/ball_bounce.wav").play();
 		}
 		if (getY() <= 0) {
 			setY(0);
 			dy = -dy;
+			new Sound("ballbounceresources/ball_bounce.wav").play();
 		}
 		if (getX() + getWidth() >= getWorld().getWidth()) {
 			setX(getWorld().getWidth() - getWidth());
 			dx = -dx;
+			new Sound("ballbounceresources/ball_bounce.wav").play();
 		}
 		if (getY() + getHeight() >= getWorld().getHeight()) {
 			setY(getWorld().getHeight() - getHeight());
@@ -56,7 +60,9 @@ public class Ball extends Actor {
 			score.setValue(score.getValue() - 1000);
 			Lives lives = ballworld.getLives();
 			lives.setValue(lives.getValue() - 1);
+			new Sound("ballbounceresources/lose_life.wav").play();
 			if (lives.getValue() <= 0) {
+				new Sound("ballbounceresources/game_lost.wav").play();
 				System.out.println("You lose");
 			} else {
 				ballworld.setPaused(true);
@@ -73,6 +79,7 @@ public class Ball extends Actor {
 		if (paddle != null) {
 			dy = -dy;
 			setY(paddle.getY() - getHeight());
+			new Sound("ballbounceresources/ball_bounce.wav").play();
 	}
 		Brick brick = getOneIntersectingObject(Brick.class);
 		if (brick != null) {
@@ -84,6 +91,7 @@ public class Ball extends Actor {
 				dx = -dx;
 				dy = -dy;
 			}
+			new Sound("ballbounceresources/brick_hit.wav").play();
 			getWorld().remove(brick);
 	}
 }

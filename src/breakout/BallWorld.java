@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import engine.Sound;
 
 public class BallWorld extends World {
 
@@ -51,7 +52,8 @@ public class BallWorld extends World {
 				ball.setY(ballY);
 				pauseText();
 			} else if (level == 3) {
-				
+				new Sound("ballbounceresources/game_won.wav").play();
+				System.out.println("You win!");
 			}
 		}
 	}
