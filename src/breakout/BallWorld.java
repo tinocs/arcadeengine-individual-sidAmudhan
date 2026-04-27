@@ -6,14 +6,18 @@ import javafx.scene.paint.Color;
 import engine.World;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class BallWorld extends World {
-	
+
 	private Ball ball;
 	private Paddle paddle;
 	private Score score;
 	private Lives lives;
 	private int level = 1;
+	private boolean isPaused = true;
+	private Text pauseText;
 	
 	public BallWorld() {
 		setPrefSize(800, 800);
@@ -26,10 +30,26 @@ public class BallWorld extends World {
 	@Override
 	public void act(long now) {
 		// TODO Auto-generated method stub
+		if (isKeyPressed(javafx.scene.input.KeyCode.SPACE) && isPaused) {
+			setPaused(false);
+			if (pauseText != null) {
+				getChildren().remove(pauseText);
+				pauseText = null;
+			}
+		}
+		if (isPaused) {
+			return;
+		}
 		if (getObjects(Brick.class).isEmpty()) {
 			level++;
 			if (level == 2) {
 				loadTextFileLevel("level2.txt");
+				setPaused(true);
+				double ballX = paddle.getX() + paddle.getWidth() / 2.0 - ball.getWidth() / 2.0;
+				double ballY = paddle.getY() - ball.getHeight() - 2;
+				ball.setX(ballX);
+				ball.setY(ballY);
+				pauseText();
 			} else if (level == 3) {
 				
 			}
@@ -72,6 +92,28 @@ public class BallWorld extends World {
 		lives.setY(60);
 		getChildren().add(lives);
 		loadTextFileLevel("level1.txt");
+		setPaused(true);
+		ballX = paddle.getX() + paddle.getWidth() / 2.0 - ball.getWidth() / 2.0;
+		ballY = paddle.getY() - ball.getHeight() - 2;
+		ball.setX(ballX);
+		ball.setY(ballY);	
+		setPaused(true);
+		ballX = paddle.getX() + paddle.getWidth() / 2.0 - ball.getWidth() / 2.0;
+		ballY = paddle.getY() - ball.getHeight() - 2;
+		ball.setX(ballX);
+		ball.setY(ballY);
+		pauseText();
+	}
+	
+	public void pauseText() {
+		if (pauseText != null && getChildren().contains(pauseText)) {
+			return;
+		}
+		pauseText = new Text("Press SPACE to start");
+		pauseText.setFont(new Font(30));
+		pauseText.setX(getWidth() / 2.0 - pauseText.getLayoutBounds().getWidth() / 2.0);
+		pauseText.setY(getHeight() / 2.0);
+		getChildren().add(pauseText);
 	}
 	
 	public void loadTextFileLevel(String filename) {
@@ -115,6 +157,14 @@ public class BallWorld extends World {
 	
 	public Lives getLives() {
 		return lives;
+	}
+	
+	public boolean isPaused() {
+		return isPaused;
+	}
+	
+	public void setPaused(boolean paused) {
+		this.isPaused = paused;
 	}
 	
 }
