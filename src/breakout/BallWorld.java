@@ -1,6 +1,8 @@
 package breakout;
 
 import java.io.File;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import java.util.Scanner;
 import javafx.scene.paint.Color;
 import engine.World;
@@ -9,6 +11,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import engine.Sound;
+import engine.Actor;
+import java.util.List;
 
 public class BallWorld extends World {
 
@@ -19,6 +23,7 @@ public class BallWorld extends World {
 	private int level = 1;
 	private boolean isPaused = true;
 	private Text pauseText;
+	private ImageView background;
 	
 	public BallWorld() {
 		setPrefSize(800, 800);
@@ -61,6 +66,13 @@ public class BallWorld extends World {
 	@Override
 	public void onDimensionsInitialized() {
 		// TODO Auto-generated method stub
+		Image backgroundImage = new Image(getClass().getResource("/breakoutresources/background.png").toExternalForm());
+		background = new ImageView(backgroundImage);
+		background.setPreserveRatio(true);
+		background.setFitHeight(getHeight());
+		background.setX((getWidth() - backgroundImage.getWidth()) / 2.0);
+		background.setY(0);
+		getChildren().add(background);
 		ball = new Ball();
 		add(ball);
 		double x = getWidth() / 2.0;
@@ -169,4 +181,19 @@ public class BallWorld extends World {
 		this.isPaused = paused;
 	}
 	
+	public void scroll(double dx) {
+		// For now, only move the background by the OPPOSITE of dx.
+		// For example, if dx was 5 then you would move the background by -5.
+		double sceneWidth = getWidth();
+		double bgWidth = background.getImage().getWidth();
+		if (background.getX() - dx < sceneWidth - bgWidth || background.getX() - dx > 0) {
+			return;
+		}
+		background.setX(background.getX() - dx);
+		List<Actor> allActors = getObjects(Actor.class);
+		for (int i = 0; i < allActors.size(); i++) {
+			Actor a = allActors.get(i);
+			a.setX(a.getX() - dx);
+		}
+	}
 }
