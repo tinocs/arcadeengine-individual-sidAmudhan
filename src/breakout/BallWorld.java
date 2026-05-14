@@ -57,6 +57,14 @@ public class BallWorld extends World {
 				ball.setY(ballY);
 				pauseText();
 			} else if (level == 3) {
+				loadTextFileLevel("level3.txt");
+				setPaused(true);
+				double ballX = paddle.getX() + paddle.getWidth() / 2.0 - ball.getWidth() / 2.0;
+				double ballY = paddle.getY() - ball.getHeight() - 2;
+				ball.setX(ballX);
+				ball.setY(ballY);
+				pauseText();
+			} else if (level == 4) {
 				new Sound("ballbounceresources/game_won.wav").play();
 				System.out.println("You win!");
 			}
@@ -72,6 +80,8 @@ public class BallWorld extends World {
 		background.setFitHeight(getHeight());
 		background.setX((getWidth() - backgroundImage.getWidth()) / 2.0);
 		background.setY(0);
+		background.setScaleX(2);
+		background.setScaleY(2);
 		getChildren().add(background);
 		ball = new Ball();
 		add(ball);

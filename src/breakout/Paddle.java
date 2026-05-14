@@ -19,15 +19,23 @@ public class Paddle extends Actor {
 		if (world.isKeyPressed(KeyCode.RIGHT)) {
 			double dx = speed;
 			setX(getX() + dx);
+			boolean isScrolling = false;
 			if (getX() > world.getWidth() / 2.0) {
+				isScrolling = true;
 				world.scroll(dx);
+			} else {
+				isScrolling = false;
 			}
 		}
 		if (world.isKeyPressed(KeyCode.LEFT)) {
 			double dx = -speed;
 			setX(getX() + dx);
+			boolean isScrolling = false;
 			if (getX() < world.getWidth() / 2.0) {
+				isScrolling = true;
 				world.scroll(dx);
+			} else {
+				isScrolling = false;
 			}
 		}
 	}
